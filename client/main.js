@@ -1,13 +1,18 @@
-import Vue from 'vue'
-import VueMeteorTracker from 'vue-meteor-tracker'
-Vue.use(VueMeteorTracker)
+import Vue from 'vue';
+import Vuetify from 'vuetify';
+import VueMeteorTracker from 'vue-meteor-tracker';
+import App from './App.vue';
 
-import App from './App.vue'
-import './main.html'
+import 'vuetify/dist/vuetify.min.css';
+import '@mdi/font/css/materialdesignicons.min.css';
+
+Vue.use(Vuetify);
+Vue.use(VueMeteorTracker);
 
 Meteor.startup(() => {
-  new Vue({
+  new Vue({ // eslint-disable-line no-new
     el: '#app',
+    vuetify: new Vuetify({}),
     ...App,
-  })
-})
+  });
+});

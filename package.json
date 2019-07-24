@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.4",
+    "@mdi/font": "^3.8.95",
     "meteor-node-stubs": "^0.4.1",
     "vue": "^2.6.10",
     "vue-meteor-tracker": "^2.0.0-beta.5",
@@ -25,14 +26,10 @@
   },
   "eslintConfig": {
     "parserOptions": {
-      "parser": "babel-eslint",
-      "sourceType": "module"
+      "parser": "babel-eslint"
     },
     "extends": [
       "@meteorjs/eslint-config-meteor"
-    ],
-    "plugins": [
-      "meteor"
     ],
     "rules": {
       "no-console": "off",
