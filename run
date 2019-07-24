@@ -1,0 +1,2 @@
+#!/bin/sh
+NO_HMR=1 meteor

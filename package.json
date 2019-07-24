@@ -5,11 +5,16 @@
     "start": "meteor run",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-    "visualize": "meteor --production --extra-packages bundle-visualizer"
+    "visualize": "meteor --production --extra-packages bundle-visualizer",
+    "lint": "eslint .",
+    "pretest": "npm run lint --silent"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.4",
-    "meteor-node-stubs": "^0.4.1"
+    "meteor-node-stubs": "^0.4.1",
+    "vue": "^2.6.10",
+    "vue-meteor-tracker": "^2.0.0-beta.5",
+    "vuetify": "^2.0.0"
   },
   "meteor": {
     "mainModule": {
@@ -17,5 +22,45 @@
       "server": "server/main.js"
     },
     "testModule": "tests/main.js"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "parser": "babel-eslint",
+      "sourceType": "module"
+    },
+    "extends": [
+      "@meteorjs/eslint-config-meteor"
+    ],
+    "plugins": [
+      "meteor"
+    ],
+    "rules": {
+      "no-console": "off",
+      "no-debugger": "off",
+      "no-unused-vars": [
+        "error",
+        {
+          "args": "none"
+        }
+      ]
+    },
+    "env": {
+      "meteor": true,
+      "mongo": true
+    }
+  },
+  "devDependencies": {
+    "@meteorjs/eslint-config-meteor": "^1.0.5",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-import-resolver-meteor": "^0.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-meteor": "^5.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-vue": "^5.2.3",
+    "vue-eslint-parser": "^6.0.4"
   }
 }
