@@ -5,7 +5,10 @@
       app
     >
       <v-list dense>
-        <v-list-item exact :to="{name: 'home'}">
+        <v-list-item
+          exact
+          :to="{name: 'home'}"
+        >
           <v-list-item-action>
             <v-icon>mdi-lan-connect</v-icon>
           </v-list-item-action>
@@ -43,7 +46,10 @@
       </v-container>
     </v-content>
 
-    <v-footer color="indigo white--text" app>
+    <v-footer
+      color="indigo white--text"
+      app
+    >
       <v-spacer />&copy; 2019 EFFORT project. Created by Daniel Schreij<v-spacer />
     </v-footer>
   </v-app>

@@ -12,7 +12,16 @@
       offset-xl1
       pt-5
     >
-      <div v-if="sessions.length">
+      <div
+        v-if="!$subReady.Sessions"
+        class="text-center"
+      >
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        />
+      </div>
+      <div v-else-if="sessions.length">
         <v-expansion-panels>
           <!-- Status bar -->
           <v-expansion-panel
@@ -46,17 +55,18 @@
                   Cabin
                 </v-flex>
                 <v-flex
-                  md4
+                  md2
                   hidden-sm-and-down
                 >
                   ID
                 </v-flex>
+                <v-flex md2 />
               </v-layout>
             </v-expansion-panel-header>
           </v-expansion-panel>
           <v-expansion-panel
             v-for="session in sessions"
-            :key="session._id"
+            :key="session._id.valueOf()"
           >
             <v-expansion-panel-header :class="{'warning lighten-3': session.status === 2}">
               <v-layout
@@ -69,13 +79,13 @@
                   text-xs-center
                 >
                   <v-icon
-                    v-if="session.status === 1"
+                    v-if="session.status === STATUS_OK"
                     color="success"
                   >
                     mdi-access-point
                   </v-icon>
                   <v-icon
-                    v-if="session.status === 2"
+                    v-if="session.status === STATUS_WARNING"
                     color="warning"
                   >
                     mdi-alert
@@ -95,14 +105,32 @@
                   {{ session.cabin }}
                 </v-flex>
                 <v-flex
-                  md4
+                  md2
                   hidden-sm-and-down
                 >
                   {{ session.ID }}
                 </v-flex>
+                <v-flex
+                  md2
+                  pr-3
+                  text-right
+                >
+                  <v-btn
+                    class="py-0 my-0"
+                    x-small
+                    icon
+                    text
+                    color="primary"
+                    @click.stop="deleteRecord(session._id)"
+                  >
+                    <v-icon>
+                      mdi-delete
+                    </v-icon>
+                  </v-btn>
+                </v-flex>
               </v-layout>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content class="pt-4">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -124,6 +152,16 @@
 import '/imports/collections/Sessions';
 
 export default {
+  data: () => ({
+    STATUS_STOPPED: 0,
+    STATUS_OK: 1,
+    STATUS_WARNING: 2,
+  }),
+  methods: {
+    deleteRecord(_id) {
+      Meteor.call('deleteSession', _id);
+    },
+  },
   // Meteor reactivity
   meteor: {
     // Subscriptions - Errors not reported spelling and capitalization.

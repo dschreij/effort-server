@@ -6,6 +6,7 @@ import '/imports/methods/updateTime';
 
 import '/imports/collections/Sessions';
 import '/imports/publications/Sessions';
+import '/imports/methods/Sessions';
 
 Meteor.startup(() => {
   // Update the current time
