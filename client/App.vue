@@ -1,24 +1,24 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-navigation-drawer
       v-model="drawer"
       app
     >
       <v-list dense>
-        <v-list-item @click="">
+        <v-list-item exact :to="{name: 'home'}">
           <v-list-item-action>
-            <v-icon>home</v-icon>
+            <v-icon>mdi-lan-connect</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
+            <v-list-item-title>Current connections</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="">
+        <v-list-item :to="{name: 'leaderboard'}">
           <v-list-item-action>
-            <v-icon>contact_mail</v-icon>
+            <v-icon>mdi-format-list-numbered</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
+            <v-list-item-title>Leaderboard</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -29,27 +29,22 @@
       color="indigo"
       dark
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>EFFORT Monitor</v-toolbar-title>
     </v-app-bar>
 
     <v-content>
-      <v-container
-        fluid
-        fill-height
-      >
+      <v-container fill-height>
         <v-layout>
-          <v-flex text-center>
-            It works!
+          <v-flex>
+            <router-view />
           </v-flex>
         </v-layout>
       </v-container>
     </v-content>
-    <v-footer
-      color="indigo"
-      app
-    >
-      <span class="white--text">&copy; 2019</span>
+
+    <v-footer color="indigo white--text" app>
+      <v-spacer />&copy; 2019 EFFORT project. Created by Daniel Schreij<v-spacer />
     </v-footer>
   </v-app>
 </template>
@@ -58,31 +53,28 @@
 import '/imports/collections/Time';
 
 export default {
-  props: {
-    source: String,
-  },
   data() {
     return {
-      drawer: null
-    }
+      drawer: this.$vuetify.breakpoint.lgAndUp,
+    };
   },
   // Vue Methods
   methods: {
     updateTime() {
       console.log('Calling Meteor Method UpdateTime');
-      Meteor.call('UpdateTime');          // not Meteor reactive
-    }
+      Meteor.call('UpdateTime'); // not Meteor reactive
+    },
   },
   // Meteor reactivity
   meteor: {
     // Subscriptions - Errors not reported spelling and capitalization.
     $subscribe: {
-      'Time': []
+      Time: [],
     },
     // A helper function to get the current time
     currentTime () {
       console.log('Calculating currentTime');
-      var t = Time.findOne('currentTime') || {};
+      const t = Time.findOne('currentTime') || {};
       return t.time;
     },
     // A Minimongo cursor on the Time collection is added to the Vue instance
@@ -90,11 +82,11 @@ export default {
       // Here you can use Meteor reactive sources like cursors or reactive vars
       // as you would in a Blaze template helper
       return Time.find({}, {
-        sort: {time: -1}
-      })
+        sort: { time: -1 },
+      });
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
