@@ -13,27 +13,105 @@
       pt-5
     >
       <v-expansion-panels>
+        <!-- Status bar -->
+        <v-expansion-panel
+          disabled
+          class="blue-grey lighten-5 black--text"
+        >
+          <v-expansion-panel-header :hide-actions="true">
+            <v-layout
+              align-center
+              spacer
+              mr-3
+              pr-3
+              class="font-weight-bold"
+            >
+              <v-flex
+                xs2
+                md1
+              >
+                <span class="hidden-md-and-down">Status</span>
+              </v-flex>
+              <v-flex
+                md3
+                xs5
+              >
+                Name
+              </v-flex>
+              <v-flex
+                md3
+                xs5
+              >
+                Cabin
+              </v-flex>
+              <v-flex
+                md3
+                hidden-sm-and-down
+              >
+                Number
+              </v-flex>
+              <v-flex
+                md2
+                hidden-sm-and-down
+              >
+                ID
+              </v-flex>
+            </v-layout>
+          </v-expansion-panel-header>
+        </v-expansion-panel>
+
         <v-expansion-panel
           v-for="session in sessions"
           :key="session._id"
         >
-          <v-expansion-panel-header>
+          <v-expansion-panel-header :class="{'warning lighten-3': session.status === 2}">
             <v-layout
               align-center
               spacer
             >
               <v-flex
-                xs1
-                shrink
+                xs2
+                md1
+                text-xs-center
               >
-                <v-avatar size="15px">
-                  <v-icon>
-                    mdi-alert
-                  </v-icon>
-                </v-avatar>
+                <v-icon
+                  v-if="session.status === 1"
+                  color="success"
+                >
+                  mdi-access-point
+                </v-icon>
+                <v-icon
+                  v-if="session.status === 2"
+                  color="warning"
+                >
+                  mdi-warning
+                </v-icon>
               </v-flex>
-              <v-flex><strong>{{ session.first }} {{ session.last }}</strong></v-flex>
-              <v-flex><strong>Number: </strong>{{ session.number }}</v-flex>
+              <v-flex
+                xs6
+                md3
+                font-weight-medium
+              >
+                {{ session.first_name }} {{ session.last_name }}
+              </v-flex>
+              <v-flex
+                xs5
+                md3
+              >
+                {{ session.cabin }}
+              </v-flex>
+              <v-flex
+                md3
+                hidden-sm-and-down
+              >
+                {{ session.number }}
+              </v-flex>
+              <v-flex
+                md2
+                hidden-sm-and-down
+              >
+                {{ session.ID }}
+              </v-flex>
             </v-layout>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
