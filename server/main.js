@@ -1,12 +1,25 @@
 import { Meteor } from 'meteor/meteor';
 
-import '/imports/collections/Time';
-import '/imports/publications/Time';
-import '/imports/methods/updateTime';
+import Time from '../imports/collections/Time';
+import Sessions from '../imports/collections/Sessions.js';
 
-import '/imports/collections/Sessions';
-import '/imports/publications/Sessions';
-import '/imports/methods/Sessions';
+Meteor.methods({
+  UpdateTime() {
+    Time.upsert('currentTime', { $set: { time: new Date() } });
+  },
+  deleteSession(_id) {
+    check(_id, Meteor.Collection.ObjectID);
+    Sessions.remove({ _id });
+  },
+});
+
+Meteor.publish('Sessions', function () {
+  return Sessions.find({});
+});
+
+Meteor.publish('Time', function () {
+  return Time.find({});
+});
 
 Meteor.startup(() => {
   // Update the current time

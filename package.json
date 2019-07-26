@@ -26,9 +26,10 @@
     "babel-loader": "^7.1.5",
     "babel-plugin-root-import": "^6.4.1",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-vue": "^2.0.2",
     "babel-preset-stage-3": "^6.24.1",
+    "babel-preset-vue": "^2.0.2",
     "css-loader": "^3.1.0",
+    "deepmerge": "^4.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-import-resolver-meteor": "^0.4.0",
@@ -38,12 +39,16 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-vue": "^5.2.3",
+    "file-loader": "^4.1.0",
     "html-webpack-plugin": "^3.2.0",
+    "sass": "^1.22.7",
+    "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "vue-eslint-parser": "^6.0.4",
     "vue-loader": "^15.7.1",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.10",
+    "vuetify-loader": "^1.3.0",
     "webpack": "^4.38.0",
     "webpack-dev-middleware": "^3.7.0",
     "webpack-hot-middleware": "^2.25.0",
@@ -57,9 +62,16 @@
     "testModule": "tests/main.js"
   },
   "babel": {
-    "plugins": [],
+    "plugins": [
+      "root-import"
+    ],
     "presets": [
-      ["env", { "modules": false }],
+      [
+        "env",
+        {
+          "modules": false
+        }
+      ],
       "vue",
       "stage-3"
     ]

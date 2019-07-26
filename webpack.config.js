@@ -2,51 +2,108 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const meteorExternals = require('webpack-meteor-externals');
+const { VueLoaderPlugin } = require('vue-loader');
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
+const sass = require('sass');
 
 const clientConfig = {
   entry: './client/main.js',
+  output: {
+    publicPath: '/',
+    filename: 'build.js',
+  },
   module: {
     rules: [
       {
-        test: /\.(js|vue)$/,
-        exclude: /node_modules/,
-        use: ['babel-loader'],
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+        ],
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          loaders: {},
+          // other vue-loader options go here
+        },
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]?[hash]',
+        },
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.s(c|a)ss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: sass,
+              // fiber: require('fibers'),
+              indentedSyntax: true, // optional
+            },
+          },
+        ],
       },
     ],
   },
+  resolve: {
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+    },
+    extensions: ['*', '.js', '.vue', '.json'],
+  },
+  externals: [meteorExternals()],
+  devServer: {
+    historyApiFallback: true,
+    noInfo: true,
+    overlay: true,
+    hot: true,
+  },
+  performance: {
+    hints: false,
+  },
+  devtool: '#eval-source-map',
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: './client/main.html',
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    new VueLoaderPlugin(),
+    new VuetifyLoaderPlugin(),
   ],
-  resolve: {
-    extensions: ['*', '.js', '.vue'],
-  },
-  output: {
-    path: `${__dirname}/dist`,
-    publicPath: '/',
-    filename: 'bundle.js',
-  },
+};
+
+const serverConfig = {
+  entry: './server/main.js',
+  target: 'node',
+  externals: [meteorExternals()],
   devServer: {
-    contentBase: './dist',
     hot: true,
   },
-  externals: [
-    meteorExternals(),
-  ],
 };
-const serverConfig = {
-  entry: [
-    './server/main.js',
-  ],
-  target: 'node',
-  externals: [
-    meteorExternals(),
-  ],
-};
+
 module.exports = [clientConfig, serverConfig];

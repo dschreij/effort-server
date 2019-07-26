@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import '/imports/collections/Time';
+import Time from '../imports/collections/Time';
 
 export default {
   data() {

@@ -1,8 +1,6 @@
-/* /client/routes.js */
-
 // Components
-import Home from '/imports/vue/pages/home.vue';
-import Leaderboard from '/imports/vue/pages/leaderboard.vue';
+import Home from './pages/home.vue';
+import Leaderboard from './pages/leaderboard.vue';
 
 export default [
   {

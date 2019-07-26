@@ -1,1 +1,1 @@
-Time = new Mongo.Collection('time');
+export default new Mongo.Collection('time');

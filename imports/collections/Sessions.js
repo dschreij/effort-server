@@ -1,1 +1,1 @@
-Sessions = new Mongo.Collection('sessions');
+export default new Mongo.Collection('sessions');

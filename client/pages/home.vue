@@ -149,7 +149,7 @@
 </template>
 
 <script>
-import '/imports/collections/Sessions';
+import Sessions from '../../imports/collections/Sessions';
 
 export default {
   data: () => ({
