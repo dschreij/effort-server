@@ -55,10 +55,6 @@
     "webpack-meteor-externals": "0.0.5"
   },
   "meteor": {
-    "mainModule": {
-      "client": "client/main.js",
-      "server": "server/main.js"
-    },
     "testModule": "tests/main.js"
   },
   "babel": {

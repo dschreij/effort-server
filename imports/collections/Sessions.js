@@ -1,1 +1,2 @@
-export default new Mongo.Collection('sessions');
+export const Sessions = new Mongo.Collection('session');
+export const Heartbeats = new Mongo.Collection('heartbeat');

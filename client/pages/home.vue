@@ -79,10 +79,16 @@
                   text-xs-center
                 >
                   <v-icon
+                    v-if="session.status === STATUS_DISCONNECTED"
+                    color="grey lighten-2"
+                  >
+                    mdi-access-point-network-off
+                  </v-icon>
+                  <v-icon
                     v-if="session.status === STATUS_OK"
                     color="success"
                   >
-                    mdi-access-point
+                    mdi-access-point-network
                   </v-icon>
                   <v-icon
                     v-if="session.status === STATUS_WARNING"
@@ -90,24 +96,38 @@
                   >
                     mdi-alert
                   </v-icon>
+                  <v-icon
+                    v-if="session.status === STATUS_FINISHED"
+                    color="success"
+                  >
+                    mdi-check-circle
+                  </v-icon>
                 </v-flex>
                 <v-flex
                   xs6
                   md4
                   font-weight-medium
                 >
-                  {{ session.first_name }} {{ session.last_name1 }} {{ session.last_name2 }}
+                  <v-icon class="hidden-sm-and-down">
+                    mdi-account-circle
+                  </v-icon> {{ session.first_name }} {{ session.last_name1 }} {{ session.last_name2 }}
                 </v-flex>
                 <v-flex
                   xs5
                   md3
                 >
+                  <v-icon class="hidden-sm-and-down">
+                    mdi-map-marker
+                  </v-icon>
                   {{ session.cabin }}
                 </v-flex>
                 <v-flex
                   md2
                   hidden-sm-and-down
                 >
+                  <v-icon class="hidden-sm-and-down">
+                    mdi-account-badge
+                  </v-icon>
                   {{ session.ID }}
                 </v-flex>
                 <v-flex
@@ -131,7 +151,7 @@
               </v-layout>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="pt-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              <span class="font-weight-medium">Heartbeat: </span>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -149,13 +169,14 @@
 </template>
 
 <script>
-import Sessions from '../../imports/collections/Sessions';
+import { Sessions } from '../../imports/collections/Sessions';
 
 export default {
   data: () => ({
-    STATUS_STOPPED: 0,
+    STATUS_DISCONNECTED: 0,
     STATUS_OK: 1,
     STATUS_WARNING: 2,
+    STATUS_FINISHED: 3,
   }),
   methods: {
     deleteRecord(_id) {
