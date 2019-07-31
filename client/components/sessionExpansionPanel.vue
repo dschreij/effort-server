@@ -66,7 +66,7 @@
       </v-layout>
     </v-expansion-panel-header>
     <v-expansion-panel-content class="pt-4">
-      <span class="font-weight-medium">Heartbeat:</span> {{ heartbeat.client_time }}
+      Content
     </v-expansion-panel-content>
   </div>
 </template>
@@ -95,7 +95,7 @@ export default {
   computed: {
     connected() {
       const tdiff = differenceInSeconds(this.now, this.heartbeat.client_time);
-      if (tdiff < 10) {
+      if (tdiff < 60) {
         return true;
       }
       return false;
