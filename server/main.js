@@ -6,12 +6,13 @@ Meteor.methods({
   deleteSession(_id) {
     check(_id, Meteor.Collection.ObjectID);
     Sessions.remove({ _id });
+    Heartbeats.remove({ session: _id });
   },
 });
 
 publishComposite('Sessions', {
   find() {
-    return Sessions.find({});
+    return Sessions.find();
   },
   children: [
     {

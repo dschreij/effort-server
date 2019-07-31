@@ -68,91 +68,11 @@
             v-for="session in sessions"
             :key="session._id.valueOf()"
           >
-            <v-expansion-panel-header :class="{'warning lighten-3': session.status === 2}">
-              <v-layout
-                align-center
-                spacer
-              >
-                <v-flex
-                  xs2
-                  md1
-                  text-xs-center
-                >
-                  <v-icon
-                    v-if="session.status === STATUS_DISCONNECTED"
-                    color="grey lighten-2"
-                  >
-                    mdi-access-point-network-off
-                  </v-icon>
-                  <v-icon
-                    v-if="session.status === STATUS_OK"
-                    color="success"
-                  >
-                    mdi-access-point-network
-                  </v-icon>
-                  <v-icon
-                    v-if="session.status === STATUS_WARNING"
-                    color="warning"
-                  >
-                    mdi-alert
-                  </v-icon>
-                  <v-icon
-                    v-if="session.status === STATUS_FINISHED"
-                    color="success"
-                  >
-                    mdi-check-circle
-                  </v-icon>
-                </v-flex>
-                <v-flex
-                  xs6
-                  md4
-                  font-weight-medium
-                >
-                  <v-icon class="hidden-sm-and-down">
-                    mdi-account-circle
-                  </v-icon> {{ session.first_name }} {{ session.last_name1 }} {{ session.last_name2 }}
-                </v-flex>
-                <v-flex
-                  xs5
-                  md3
-                >
-                  <v-icon class="hidden-sm-and-down">
-                    mdi-map-marker
-                  </v-icon>
-                  {{ session.cabin }}
-                </v-flex>
-                <v-flex
-                  md2
-                  hidden-sm-and-down
-                >
-                  <v-icon class="hidden-sm-and-down">
-                    mdi-account-badge
-                  </v-icon>
-                  {{ session.ID }}
-                </v-flex>
-                <v-flex
-                  md2
-                  pr-3
-                  text-right
-                >
-                  <v-btn
-                    class="py-0 my-0"
-                    x-small
-                    icon
-                    text
-                    color="primary"
-                    @click.stop="deleteRecord(session._id)"
-                  >
-                    <v-icon>
-                      mdi-delete
-                    </v-icon>
-                  </v-btn>
-                </v-flex>
-              </v-layout>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content class="pt-4">
-              <span class="font-weight-medium">Heartbeat: </span>
-            </v-expansion-panel-content>
+            <session-expansion-panel
+              :session="session"
+              :now="now"
+              @clicked-delete="deleteRecord"
+            />
           </v-expansion-panel>
         </v-expansion-panels>
       </div>
@@ -169,18 +89,29 @@
 </template>
 
 <script>
+import SessionExpansionPanel from '../components/sessionExpansionPanel.vue';
 import { Sessions } from '../../imports/collections/Sessions';
 
 export default {
-  data: () => ({
-    STATUS_DISCONNECTED: 0,
-    STATUS_OK: 1,
-    STATUS_WARNING: 2,
-    STATUS_FINISHED: 3,
-  }),
+  components: { SessionExpansionPanel },
+  data() {
+    return {
+      now: new Date(),
+    };
+  },
+  created () {
+    this.updateTime();
+    setInterval(this.updateTime, 5000);
+  },
+  destroyed () {
+    clearInterval(this.updateTime);
+  },
   methods: {
-    deleteRecord(_id) {
-      Meteor.call('deleteSession', _id);
+    deleteRecord(session) {
+      Meteor.call('deleteSession', session._id);
+    },
+    updateTime() {
+      this.now = new Date();
     },
   },
   // Meteor reactivity
@@ -188,10 +119,10 @@ export default {
     // Subscriptions - Errors not reported spelling and capitalization.
     $subscribe: {
       Sessions: [],
+      Heartbeats: [],
     },
-    // A helper function to get the current time
     sessions () {
-      return Sessions.find({});
+      return Sessions.find();
     },
   },
 };
