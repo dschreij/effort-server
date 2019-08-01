@@ -12,5 +12,5 @@ to install dependency packages. After installation of these is complete, run
 ```
 meteor
 ```
-to start the server. The first run can take a while to begin, but after that startup should be swift.
+to start the server. The first run can take a while to begin, but after that startup should be swift. You can then watch the server in action by opening a browser and navigating to http://localhost:3000.
 
