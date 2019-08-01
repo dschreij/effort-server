@@ -18,7 +18,7 @@
       v-if="status === STATUS_STOPPED"
       color="danger lighten-2"
     >
-      mdi-alert-circle
+      mdi-close-circle
     </v-icon>
     <v-icon
       v-if="status === STATUS_WARNING"

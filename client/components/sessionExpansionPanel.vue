@@ -51,6 +51,7 @@
           text-right
         >
           <v-btn
+            v-if="[STATUS_STOPPED, STATUS_FINISHED].includes(session.status)"
             class="py-0 my-0"
             x-small
             icon
@@ -66,19 +67,48 @@
       </v-layout>
     </v-expansion-panel-header>
     <v-expansion-panel-content class="pt-4">
-      Content
+      <v-container
+        grid-list-lg
+        fluid
+      >
+        <v-layout wrap>
+          <v-flex
+            xs12
+            md4
+          >
+            <current-stage :data="session.current" />
+          </v-flex>
+          <v-flex
+            xs12
+            md4
+          >
+            <current-performance :data="session.current" />
+          </v-flex>
+          <v-flex
+            xs12
+            md4
+          >
+            <current-points :data="session.points" />
+          </v-flex>
+        </v-layout>
+      </v-container>
     </v-expansion-panel-content>
   </div>
 </template>
 
 <script>
 import differenceInSeconds from 'date-fns/difference_in_seconds';
+import CurrentPoints from './currentPoints.vue';
+import CurrentPerformance from './currentPerformance.vue';
+import CurrentStage from './currentStage.vue';
 import StatusIcon from './statusIcon.vue';
 import { Heartbeats } from '../../imports/collections/Sessions';
 import { STATUS } from '../constants';
 
 export default {
-  components: { StatusIcon },
+  components: {
+    StatusIcon, CurrentStage, CurrentPerformance, CurrentPoints,
+  },
   props: {
     session: {
       type: Object,

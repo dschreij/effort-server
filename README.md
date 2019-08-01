@@ -5,7 +5,7 @@
 Clone this repository to your local machine, and navigate to its folder with your terminal. Then run:
 
 ```
-meteor npm install
+meteor npm ci
 ```
 to install dependency packages. After installation of these is complete, run
 
