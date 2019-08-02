@@ -1,28 +1,66 @@
 <template>
   <v-card
     outlined
-    class="fill-height"
+    class="fill-height pb-4"
   >
-    <v-card-title>Collected points</v-card-title>
-    <v-list>
-      <div
-        v-for="(value, label) in data"
+    <v-card-title class="font-weight-light">
+      Collected points
+    </v-card-title>
+    <template v-for="(value, label) in data">
+      <v-divider
+        v-if="label=='tournament'"
+        :key="label+'d'"
+      />
+      <v-layout
         :key="label"
+        wrap
+        px-4
       >
-        <v-divider v-if="label=='tournament'" />
-        <v-list-item>
-          <v-list-item-title
-            class="font-weight-bold"
-            style="min-width: 50%"
-          >
-            {{ label }}
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            {{ value }}
-          </v-list-item-subtitle>
-        </v-list-item>
-      </div>
-    </v-list>
+        <v-flex
+          xs6
+          lg5
+          py-1
+          font-weight-medium
+          grey--text
+          text--darken-2
+        >
+          {{ label }}
+          <span v-if="label !== 'tournament'"> task</span>
+        </v-flex>
+        <v-flex
+          xs6
+          lg7
+          py-1
+          grey--text
+          text--darken-1
+        >
+          {{ value }}
+        </v-flex>
+      </v-layout>
+    </template>
+    <v-divider />
+    <v-layout
+      wrap
+      px-4
+    >
+      <v-flex
+        xs6
+        lg5
+        py-1
+        font-weight-bold
+      >
+        total
+      </v-flex>
+      <v-flex
+        xs6
+        lg7
+        py-1
+        grey--text
+        text--darken-1
+      >
+        {{ total }}
+      </v-flex>
+    </v-layout>
   </v-card>
 </template>
 
@@ -32,6 +70,11 @@ export default {
     data: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    total() {
+      return Object.values(this.data).reduce((sum, val) => sum + val, 0);
     },
   },
 };

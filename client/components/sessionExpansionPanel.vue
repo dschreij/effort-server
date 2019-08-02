@@ -18,7 +18,7 @@
           />
         </v-flex>
         <v-flex
-          xs6
+          xs8
           md4
           font-weight-medium
         >
@@ -28,7 +28,7 @@
           {{ session.first_name }} {{ session.last_name1 }} {{ session.last_name2 }}
         </v-flex>
         <v-flex
-          xs5
+          xs3
           md3
         >
           <v-icon class="hidden-sm-and-down">
@@ -46,12 +46,13 @@
           {{ session.ID }}
         </v-flex>
         <v-flex
+          xs1
           md2
           pr-3
           text-right
         >
           <v-btn
-            v-if="[STATUS_STOPPED, STATUS_FINISHED].includes(session.status)"
+            v-if="[STATUS_STOPPED, STATUS_FINISHED].includes(session.status) || !connected"
             class="py-0 my-0"
             x-small
             icon

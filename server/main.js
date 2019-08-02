@@ -12,7 +12,11 @@ Meteor.methods({
 
 publishComposite('Sessions', {
   find() {
-    return Sessions.find();
+    return Sessions.find({}, {
+      sort: {
+        cabin: 1,
+      },
+    });
   },
   children: [
     {
@@ -23,6 +27,21 @@ publishComposite('Sessions', {
   ],
 });
 
+Meteor.publish('Leaderboard', function() {
+  return Sessions.find(
+    {
+      'points.tournament': {
+        $gt: 0,
+      },
+    },
+    {
+      sort: {
+        'points.tournament': -1,
+        'current.last_avg_rt': 1,
+      },
+    },
+  );
+});
 
 Meteor.startup(() => {
 });

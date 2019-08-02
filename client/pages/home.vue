@@ -22,7 +22,7 @@
         />
       </div>
       <div v-else-if="sessions.length">
-        <v-expansion-panels>
+        <v-expansion-panels multiple>
           <!-- Status bar -->
           <v-expansion-panel
             disabled
@@ -44,13 +44,13 @@
                 </v-flex>
                 <v-flex
                   md4
-                  xs5
+                  xs8
                 >
                   Name
                 </v-flex>
                 <v-flex
                   md3
-                  xs5
+                  xs3
                 >
                   Cabin
                 </v-flex>
@@ -60,7 +60,10 @@
                 >
                   ID
                 </v-flex>
-                <v-flex md2 />
+                <v-flex
+                  xs1
+                  md2
+                />
               </v-layout>
             </v-expansion-panel-header>
           </v-expansion-panel>
@@ -122,7 +125,11 @@ export default {
       Heartbeats: [],
     },
     sessions () {
-      return Sessions.find();
+      return Sessions.find({}, {
+        sort: {
+          cabin: 1,
+        },
+      });
     },
   },
 };

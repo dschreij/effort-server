@@ -1,29 +1,37 @@
 <template>
   <v-card
     outlined
-    class="fill-height"
+    class="fill-height pb-4"
   >
-    <v-card-title>Current status</v-card-title>
-    <v-list>
-      <template
-        v-for="(value, label) in status"
+    <v-card-title class="font-weight-light">
+      Current status
+    </v-card-title>
+    <template v-for="(value, label) in status">
+      <v-layout
+        v-if="value"
+        :key="label"
+        wrap
+        px-4
       >
-        <v-list-item
-          v-if="value"
-          :key="label"
+        <v-flex
+          xs6
+          lg5
+          font-weight-medium
+          py-1
         >
-          <v-list-item-title
-            class="font-weight-bold"
-            style="min-width: 50%"
-          >
-            {{ label }}
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            {{ value }}
-          </v-list-item-subtitle>
-        </v-list-item>
-      </template>
-    </v-list>
+          {{ label }}
+        </v-flex>
+        <v-flex
+          xs6
+          lg7
+          py-1
+          grey--text
+          text--darken-1
+        >
+          {{ value }}
+        </v-flex>
+      </v-layout>
+    </template>
   </v-card>
 </template>
 
