@@ -125,9 +125,11 @@ export default {
   }),
   computed: {
     connected() {
-      const tdiff = differenceInSeconds(this.now, this.heartbeat.client_time);
-      if (tdiff < 60) {
-        return true;
+      if (this.hearbeat) {
+        const tdiff = differenceInSeconds(this.now, this.heartbeat.client_time);
+        if (tdiff < 60) {
+          return true;
+        }
       }
       return false;
     },

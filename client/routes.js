@@ -1,6 +1,7 @@
 // Components
 import Home from './pages/home.vue';
 import Leaderboard from './pages/leaderboard.vue';
+import Toys from './pages/toys.vue';
 
 export default [
   {
@@ -12,5 +13,11 @@ export default [
     path: '/leaderboard',
     name: 'leaderboard',
     component: Leaderboard,
+  },
+  {
+    path: '/toys',
+    name: 'toys',
+    component: Toys,
+    meta: { layout: 'bare' },
   },
 ];
