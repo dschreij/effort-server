@@ -58,7 +58,7 @@
             icon
             text
             color="primary"
-            @click.stop="$emit('clicked-delete', session)"
+            @click.stop="confirmDelete"
           >
             <v-icon>
               mdi-delete
@@ -77,7 +77,10 @@
             xs12
             md4
           >
-            <current-stage :data="session.current" />
+            <current-stage
+              :data="session.current"
+              :finished="session.status === STATUS_FINISHED"
+            />
           </v-flex>
           <v-flex
             xs12
@@ -94,11 +97,44 @@
         </v-layout>
       </v-container>
     </v-expansion-panel-content>
+    <v-dialog
+      v-model="dialog.visible"
+      persistent
+      max-width="350"
+      transition="dialog-transition"
+    >
+      <v-card>
+        <v-card-title class="headline">
+          {{ dialog.title }}
+        </v-card-title>
+        <v-card-text class="body-1">
+          {{ dialog.contents }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog.visible = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="$emit('clicked-delete', session)"
+          >
+            Proceed
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import differenceInSeconds from 'date-fns/difference_in_seconds';
+import { Mongo } from 'meteor/mongo';
 import CurrentPoints from './currentPoints.vue';
 import CurrentPerformance from './currentPerformance.vue';
 import CurrentStage from './currentStage.vue';
@@ -122,11 +158,17 @@ export default {
   },
   data: () => ({
     ...STATUS,
+    dialog: {
+      visible: false,
+      title: '',
+      contents: '',
+      action: () => {},
+    },
   }),
   computed: {
     connected() {
-      if (this.hearbeat) {
-        const tdiff = differenceInSeconds(this.now, this.heartbeat.client_time);
+      if (this.heartbeat) {
+        const tdiff = Math.abs(differenceInSeconds(this.now, this.heartbeat.client_time));
         if (tdiff < 60) {
           return true;
         }
@@ -142,6 +184,12 @@ export default {
         'warning lighten-5': status === this.STATUS_PAUSED,
         'success lighten-5': status === this.STATUS_FINISHED,
       };
+    },
+    confirmDelete() {
+      this.dialog.title = 'Are you sure?';
+      this.dialog.contents = `You are about to delete the session of ${this.session.first_name} 
+        ${this.session.last_name1} ${this.session.last_name2}`;
+      this.dialog.visible = true;
     },
   },
   meteor: {

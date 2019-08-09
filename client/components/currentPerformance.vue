@@ -54,7 +54,7 @@
 
                 <span
                   class="subtitle-1 font-weight-black"
-                  v-text="scores.last_avg_rt"
+                  v-text="Math.floor(scores.last_avg_rt)"
                 />
                 <strong>ms</strong>
               </v-layout>

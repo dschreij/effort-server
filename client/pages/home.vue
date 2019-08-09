@@ -122,7 +122,6 @@ export default {
     // Subscriptions - Errors not reported spelling and capitalization.
     $subscribe: {
       Sessions: [],
-      Heartbeats: [],
     },
     sessions () {
       return Sessions.find({}, {

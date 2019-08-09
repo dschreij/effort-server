@@ -20,7 +20,6 @@
           xs6
           lg5
           py-1
-          font-weight-medium
           grey--text
           text--darken-2
         >

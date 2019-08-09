@@ -8,6 +8,11 @@ Meteor.methods({
     Sessions.remove({ _id });
     Heartbeats.remove({ session: _id });
   },
+  saveToySelection({ session, toys }) {
+    check(session, Object);
+    check(toys, Array);
+    Sessions.update({ _id: session._id }, { $set: { toys } });
+  },
 });
 
 publishComposite('Sessions', {

@@ -6,7 +6,13 @@
     <v-card-title class="font-weight-light">
       Current status
     </v-card-title>
-    <template v-for="(value, label) in status">
+    <v-card-title v-if="finished">
+      <span class="success--text">Finished</span>
+    </v-card-title>
+    <template
+      v-for="(value, label) in status"
+      v-else
+    >
       <v-layout
         v-if="value"
         :key="label"
@@ -43,6 +49,10 @@ export default {
     data: {
       type: Object,
       required: true,
+    },
+    finished: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

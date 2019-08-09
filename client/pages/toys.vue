@@ -1,78 +1,130 @@
 <template>
   <v-container
     grid-list-lg
+    fill-height
   >
-    <v-layout wrap>
-      <v-flex
-        xs12
-        xl8
-        offset-xl2
-        text-center
+    <v-layout
+      v-if="!$subReady.Sessions || !session"
+      column
+      justify-center
+      fill-height
+      align-center
+    >
+      <div
+        v-if="!$subReady.Sessions"
+        class="text-center"
       >
-        <h1>Session {{ session && session._id }}</h1>
-        <h1 class="font-weight-light pb-4">
-          Selección de juguetes
+        <v-progress-circular
+          size="100"
+          width="10"
+          color="primary"
+          indeterminate
+        />
+        <h1 class="font-weight-light text--primary mt-5">
+          Cargando. Por favor espera.
         </h1>
-        <p>
-          Escoge los juguetes/juegos que prefieras <strong>teniendo en cuenta los puntos que has
-            obtenido</strong> en la prueba que acabas de hacer en el ordenador. Recuerda que no
-          puedes escoger más de un juguete del mismo tipo, y que en algunos casos tendrás que
-          marcar qué modelo de juguete
-          quieres.
-        </p>
-        <p>
-          Por ejemplo, imagina que tienes 300 puntos. En ese caso podrías seleccionar, o bien
-          una baraja de cartas (300 puntos), o bien la pelota + el spinner (100+200 puntos).
-          Sin embargo, NO podrías escoger juguetes de más valor o tres spinners iguales.
-        </p>
-      </v-flex>
-    </v-layout>
-    <v-layout wrap>
-      <v-flex
-        xs12
-        text-center
-        py-5
+      </div>
+      <v-layout
+        v-else-if="!session"
+        shrink
+        align-center
       >
-        <h3>RODEA LOS JUGUETES POR LOS QUE TE HAYAS DECIDIDO</h3>
-      </v-flex>
-      <v-flex xs12>
-        <v-layout wrap>
-          <v-flex
-            xs12
-            md9
-          >
-            <v-layout wrap>
-              <v-flex
-                v-for="toy in toys"
-                :key="toy.name"
-                xs12
-                sm6
-                lg4
-                xl3
-              >
-                <toy-choice
-                  :affordable="availablePoints >= toy.points"
-                  :toy="toy"
-                  :selected="isSelected(toy)"
-                  @tapped="toggleSelection"
-                />
-              </v-flex>
-            </v-layout>
-          </v-flex>
-          <v-flex
-            xs12
-            md3
-          >
-            <toy-selection
-              :selected="selected"
-              :points="points"
-              @clicked-remove="toggleSelection"
-              @clicked-proceed="processSelection"
-            />
-          </v-flex>
-        </v-layout>
-      </v-flex>
+        <v-icon
+          color="warning"
+          size="50"
+        >
+          mdi-alert
+        </v-icon>&nbsp;&nbsp;&nbsp;<h1 class="font-weight-light primary--text">
+          Sesión no encontrada! Por favor llame a un supervisor.
+        </h1>
+      </v-layout>
     </v-layout>
+    <v-layout
+      v-else-if="session.toys && session.toys.length"
+      justify-center
+      align-center
+    >
+      <v-icon
+        color="success"
+        size="100"
+      >
+        mdi-check
+      </v-icon>&nbsp;&nbsp;&nbsp;<h1 class="font-weight-light primary--text">
+        Gracias por elegir los juguetes. Por favor espera.
+      </h1>
+    </v-layout>
+    <div v-else>
+      <v-layout wrap>
+        <v-flex
+          xs12
+          xl8
+          offset-xl2
+          text-center
+        >
+          <h1 class="font-weight-light pb-4">
+            Selección de juguetes
+          </h1>
+          <p>
+            ¡Hola {{ session.first_name }} {{ session.last_name1 }} {{ session.last_name2 }}! Escoge los juguetes/juegos que prefieras <strong>teniendo en cuenta los puntos que has
+              obtenido</strong> en la prueba que acabas de hacer en el ordenador. Recuerda que no
+            puedes escoger más de un juguete del mismo tipo, y que en algunos casos tendrás que
+            marcar qué modelo de juguete
+            quieres.
+          </p>
+          <p>
+            Por ejemplo, imagina que tienes 300 puntos. En ese caso podrías seleccionar, o bien
+            una baraja de cartas (300 puntos), o bien la pelota + el spinner (100+200 puntos).
+            Sin embargo, NO podrías escoger juguetes de más valor o tres spinners iguales.
+          </p>
+        </v-flex>
+      </v-layout>
+      <v-layout wrap>
+        <v-flex
+          xs12
+          text-center
+          py-5
+        >
+          <h3>RODEA LOS JUGUETES POR LOS QUE TE HAYAS DECIDIDO</h3>
+        </v-flex>
+        <v-flex xs12>
+          <v-layout wrap>
+            <v-flex
+              xs12
+              md9
+            >
+              <v-layout wrap>
+                <v-flex
+                  v-for="toy in toys"
+                  :key="toy.name"
+                  xs12
+                  sm6
+                  lg4
+                  xl3
+                >
+                  <toy-choice
+                    :affordable="availablePoints >= toy.points"
+                    :toy="toy"
+                    :selected="isSelected(toy)"
+                    @tapped="toggleSelection"
+                  />
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex
+              xs12
+              md3
+            >
+              <toy-selection
+                :selected="selected"
+                :points="points"
+                @clicked-remove="toggleSelection"
+                @clicked-proceed="processSelection"
+              />
+            </v-flex>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+    </div>
     <v-dialog
       v-model="dialog.visible"
       persistent
@@ -188,7 +240,7 @@ export default {
   computed: {
     spendingPoints() {
       if (!isObject(this.session)) return 0;
-      return Object.values(this.session.points).reduce((total, pts) => total + pts, 0);
+      return 1000 + Object.values(this.session.points).reduce((total, pts) => total + pts, 0);
     },
     pointsAllocated() {
       return this.selected.reduce((total, item) => (total + item.points), 0);
@@ -225,6 +277,10 @@ export default {
     },
     proceed() {
       this.dialog.visible = false;
+      Meteor.call('saveToySelection', {
+        session: this.session,
+        toys: this.selected.map(item => item.name),
+      });
     },
   },
   meteor: {
