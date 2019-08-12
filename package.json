@@ -11,40 +11,40 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@mdi/font": "^3.9.95",
+    "@mdi/font": "^3.9.97",
+    "core-js": "^3.2.1",
     "date-fns": "^1.30.1",
     "meteor-node-stubs": "^0.4.1",
     "vue": "^2.6.10",
     "vue-meta": "^2.2.1",
     "vue-meteor-tracker": "^2.0.0-beta.5",
-    "vue-router": "^3.0.7",
-    "vuetify": "^2.0.4"
+    "vue-router": "^3.1.2",
+    "vuetify": "^2.0.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "@meteorjs/eslint-config-meteor": "^1.0.5",
-    "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.2",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-root-import": "^6.4.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "babel-preset-vue": "^2.0.2",
-    "css-loader": "^3.1.0",
+    "babel-loader": "^8.0.6",
+    "babel-preset-edge": "^5.4.0",
+    "css-loader": "^3.2.0",
     "deepmerge": "^4.0.0",
     "eslint": "^5.16.0",
-    "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-airbnb": "^18.0.0",
     "eslint-import-resolver-meteor": "^0.4.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-meteor": "^5.2.0",
+    "eslint-plugin-meteor": "^6.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-vue": "^5.2.3",
-    "file-loader": "^4.1.0",
+    "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
     "sass": "^1.22.9",
-    "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.1",
+    "sass-loader": "^7.2.0",
+    "style-loader": "^1.0.0",
     "vue-eslint-parser": "^6.0.4",
     "vue-loader": "^15.7.1",
     "vue-style-loader": "^4.1.2",
@@ -60,17 +60,22 @@
   },
   "babel": {
     "plugins": [
-      "root-import"
+      "@babel/plugin-proposal-object-rest-spread"
     ],
     "presets": [
       [
-        "env",
+        "@babel/preset-env",
         {
-          "modules": false
+          "useBuiltIns": "usage",
+          "corejs": {"version": 3, "proposals": true}
         }
       ],
-      "vue",
-      "stage-3"
+      [
+        "edge",
+        {
+          "debug": true
+        }
+      ]
     ]
   },
   "eslintConfig": {
@@ -91,6 +96,7 @@
         "error",
         "kebab-case"
       ],
+      "comma-dangle": "off",
       "no-console": "off",
       "no-debugger": "off",
       "vue/no-v-html": "off",

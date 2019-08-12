@@ -1,3 +1,4 @@
+import 'core-js';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuetify from 'vuetify/lib';
@@ -31,7 +32,7 @@ Meteor.startup(() => {
   new Vue({ // eslint-disable-line no-new
     router,
     vuetify: new Vuetify({}),
-    ...App,
+    ...App
   }).$mount('#app');
 });
 
