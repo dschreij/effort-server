@@ -86,7 +86,7 @@ const clientConfig = {
   performance: {
     hints: false,
   },
-  devtool: 'source-map',
+  devtool: 'eval-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({

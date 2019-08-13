@@ -1,4 +1,6 @@
-import 'core-js';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuetify from 'vuetify/lib';
@@ -11,7 +13,6 @@ import BareLayout from './layouts/Bare.vue';
 import routes from './routes';
 
 import '@mdi/font/css/materialdesignicons.css';
-
 
 Vue.use(VueRouter);
 Vue.use(Vuetify);
@@ -29,7 +30,7 @@ const router = new VueRouter({
 });
 
 Meteor.startup(() => {
-  new Vue({ // eslint-disable-line no-new
+  new Vue({// eslint-disable-line no-new
     router,
     vuetify: new Vuetify({}),
     ...App

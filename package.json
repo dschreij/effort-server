@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
+    "@babel/runtime-corejs3": "^7.5.5",
     "@mdi/font": "^3.9.97",
     "core-js": "^3.2.1",
     "date-fns": "^1.30.1",
@@ -22,8 +23,10 @@
     "vuetify": "^2.0.5"
   },
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@meteorjs/eslint-config-meteor": "^1.0.5",
     "babel-eslint": "^10.0.2",
@@ -58,26 +61,6 @@
   "meteor": {
     "testModule": "tests/main.js"
   },
-  "babel": {
-    "plugins": [
-      "@babel/plugin-proposal-object-rest-spread"
-    ],
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "useBuiltIns": "usage",
-          "corejs": {"version": 3, "proposals": true}
-        }
-      ],
-      [
-        "edge",
-        {
-          "debug": true
-        }
-      ]
-    ]
-  },
   "eslintConfig": {
     "parserOptions": {
       "parser": "babel-eslint",
@@ -89,7 +72,8 @@
       "plugin:vue/recommended"
     ],
     "plugins": [
-      "vue"
+      "vue",
+      "meteor"
     ],
     "rules": {
       "vue/component-name-in-template-casing": [
