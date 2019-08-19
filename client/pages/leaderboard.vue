@@ -92,5 +92,8 @@ export default {
       });
     },
   },
+  metaInfo: {
+    title: 'Leaderboard',
+  }
 };
 </script>

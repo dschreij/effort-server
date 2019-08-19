@@ -3,6 +3,7 @@ import 'regenerator-runtime/runtime';
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueMeta from 'vue-meta';
 import Vuetify from 'vuetify/lib';
 import VueMeteorTracker from 'vue-meteor-tracker';
 
@@ -17,6 +18,10 @@ import '@mdi/font/css/materialdesignicons.css';
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 Vue.use(VueMeteorTracker);
+Vue.use(VueMeta, {
+  // optional pluginOptions
+  refreshOnceOnNavigation: true
+});
 
 Vue.component('default-layout', DefaultLayout);
 Vue.component('bare-layout', BareLayout);

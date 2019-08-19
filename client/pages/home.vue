@@ -131,5 +131,8 @@ export default {
       });
     },
   },
+  metaInfo: {
+    title: 'Sessions',
+  }
 };
 </script>

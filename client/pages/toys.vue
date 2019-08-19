@@ -240,7 +240,7 @@ export default {
   computed: {
     spendingPoints() {
       if (!isObject(this.session)) return 0;
-      return 1000 + Object.values(this.session.points).reduce((total, pts) => total + pts, 0);
+      return Object.values(this.session.points).reduce((total, pts) => total + pts, 0);
     },
     pointsAllocated() {
       return this.selected.reduce((total, item) => (total + item.points), 0);
@@ -279,7 +279,7 @@ export default {
       this.dialog.visible = false;
       Meteor.call('saveToySelection', {
         session: this.session,
-        toys: this.selected.map(item => item.name),
+        toys: this.selected.map((item) => item.name),
       });
     },
   },
@@ -295,5 +295,8 @@ export default {
       return null;
     },
   },
+  metaInfo: {
+    title: 'Juguetes',
+  }
 };
 </script>
