@@ -6,9 +6,29 @@
     <v-card-title class="font-weight-light">
       Current status
     </v-card-title>
-    <v-card-title v-if="finished">
-      <span class="success--text">Finished</span>
-    </v-card-title>
+    <template v-if="finished">
+      <v-card-title>
+        <span class="success--text">
+          Finished
+        </span>
+      </v-card-title>
+      <v-card-text>
+        <v-subheader class="pl-0">
+          Chosen toys
+        </v-subheader>
+        <v-chip
+          v-for="toy in selectedToys"
+          :key="toy"
+          color="indigo lighten-4"
+        >
+          <v-avatar left>
+            <v-img :src="toys[toy].img" />
+          </v-avatar>
+          {{ toy }}
+        </v-chip>
+      </v-card-text>
+    </template>
+
     <template
       v-for="(value, label) in status"
       v-else
@@ -43,6 +63,8 @@
 
 <script>
 import pick from 'lodash/pick';
+import keyBy from 'lodash/keyBy';
+import { toys } from '../data';
 
 export default {
   props: {
@@ -54,6 +76,13 @@ export default {
       type: Boolean,
       default: false,
     },
+    selectedToys: {
+      type: Array,
+      default: () => [],
+    }
+  },
+  data() {
+    return { toys: keyBy(toys, 'name') };
   },
   computed: {
     status() {

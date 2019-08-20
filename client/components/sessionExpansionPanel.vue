@@ -79,6 +79,7 @@
           >
             <current-stage
               :data="session.current"
+              :selected-toys="session.toys"
               :finished="session.status === STATUS_FINISHED"
             />
           </v-flex>

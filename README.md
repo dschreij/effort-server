@@ -28,6 +28,8 @@ In the item `SessionSettings` in the EFFORT experiment, you can enter the IP add
 
 ![Example settings](doc/OS_settings.jpg)
 
+In the screenshot above, the IP address `127.0.0.1` is used, which commonly refers to the computer you are working on, or the 'localhost'. If you run meteor on the same computer as you start the experiment on, the default setting work out-of-the-box. More likely, the server runs on a different computer, and you need to adjust the IP addresses (and if necessary to port suffix, which can be found after the colon (:)) to the right ones.
+
 - *mongo_url*: The IP address and port on which the Mongo server is running. The default port (when running the Mongo version that is included with Meteor) is `3001`.
 - *db_name*: The name of the database in MongoDB. When Mongo is run from Meteor, this is usually simply called 'meteor'.
 - *with_db*: `yes` if the experiment should attempt to connect to the database, `no` if it should run without the database (for testing purposes).
