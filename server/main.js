@@ -8,6 +8,10 @@ Meteor.methods({
     Sessions.remove({ _id });
     Heartbeats.remove({ session: _id });
   },
+  deleteAllSessions() {
+    Sessions.remove({});
+    Heartbeats.remove({});
+  },
   saveToySelection({ session, toys }) {
     check(session, Object);
     check(toys, Array);

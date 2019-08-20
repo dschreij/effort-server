@@ -134,7 +134,6 @@
 
 <script>
 import differenceInSeconds from 'date-fns/difference_in_seconds';
-import { Mongo } from 'meteor/mongo';
 import CurrentPoints from './currentPoints.vue';
 import CurrentPerformance from './currentPerformance.vue';
 import CurrentStage from './currentStage.vue';
@@ -161,8 +160,7 @@ export default {
     dialog: {
       visible: false,
       title: '',
-      contents: '',
-      action: () => {},
+      contents: ''
     },
   }),
   computed: {
@@ -187,7 +185,7 @@ export default {
     },
     confirmDelete() {
       this.dialog.title = 'Are you sure?';
-      this.dialog.contents = `You are about to delete the session of ${this.session.first_name} 
+      this.dialog.contents = `You are about to delete the session of ${this.session.first_name}
         ${this.session.last_name1} ${this.session.last_name2}`;
       this.dialog.visible = true;
     },
