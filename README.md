@@ -18,7 +18,23 @@ EFFORT experiment server to be run with the companion OpenSesame experiment.
 
 From the folder in which the repository is located, type `run.bat`, or click on this file in an explorer window. The first run can take a while to begin, but after that startup should be swift. You can then watch the server in action by opening a browser and navigating to [http://localhost:3000](http://localhost:3000).
 
-## Connecting OpenSesame to the server
+### Installing MongoDB
+
+Sadly, the version of MongoDB that is included with the development version of Meteor by default cannot be accessed from outside the computer that it is running on. We do require this, as the effort experiment needs to communicate with MongoDB directly, and the experiment will be running on a number of other PC's.
+
+To make this work, we thus need to install mongodb separately and configure meteor, or the effort-server to use this mongodb instead of the one it comes bundled with. Installing MongoDB is very easy if you have chocolatey installed:
+
+```powershell
+cinst mongodb -y
+```
+
+Make sure you run this command from an Administrator powershell.
+
+This should install MongoDB, and also make it run.
+
+## Client
+
+### Connecting OpenSesame to the server
 
 OpenSesame requires some extra modules to be able to interact with the server, but these should be installed automatically on the first run of the experiment. If automatic installation fails for some reason, please also try to see if it succeeds when OpenSesame is run in Administrator mode.
 
@@ -36,3 +52,21 @@ In the screenshot above, the IP address `127.0.0.1` is used, which commonly refe
 - *toy_server*: The IP address and port on which the toy selection server can be found (which is part of the Meteor app that also displays the sessions and leaderboard). Usually this is the same as the IP address specified in `mongo_url`, only the port is different (`3000`)
 
 If these settings are configured correctly, the EFFORT OpenSesame experiment should automatically connect to the server when it is run.
+
+### Installing ChromeDriver
+
+The EFFORT experiment uses a package called selenium (which is installed automatically at the first start of the experiment) to fire up an instance of Chrome for the toy selection screen. To do so, it requires a correct ChromeDriver to be installed. Download the chrome driver with the version matching your Chrome from [https://chromedriver.chromium.org/](https://chromedriver.chromium.org/). You can check your Chrome version by opening the browser menu through the three vertical dots at the top-right of the browser window, and then selecting the following menu items in Chrome `Help > About Google Chrome`.
+
+Once you have downloaded an appropriate version of the ChromeDriver, you should extract the zip and move or copy the resulting `Chromedriver.exe` to a location in your [system's PATH](https://en.wikipedia.org/wiki/PATH_(variable)). You can find out which folders this are by opening a powershell and executing
+
+```powershell
+$env:path -split ";"
+```
+
+This will print a list of all the locations that are in your path. It is recommendable to use a path location that is inside your user dir, or home folder (this can be determined by executing the command.
+
+```powershell
+$HOME
+```
+
+in powershell).

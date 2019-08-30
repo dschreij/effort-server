@@ -19,7 +19,9 @@
         <v-chip
           v-for="toy in selectedToys"
           :key="toy"
+          class="ma-1"
           color="indigo lighten-4"
+          small
         >
           <v-avatar left>
             <v-img :src="toys[toy].img" />
