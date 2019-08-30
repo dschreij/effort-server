@@ -123,7 +123,7 @@ This will print a list of all the locations that are in your path. It is recomme
 $HOME
 ```
 
-in powershell). Once you have copied the ChromeDriver to this location, OpenSesame should be able to open a Chrome window on its own. You can check if ChromeDriver is correctly placed in your path, by executing the command `ChromeDriver.exe` in any folder in PowerShell but the one in which you just copied ChromeDriver.
+in powershell). Once you have copied the ChromeDriver to this location, OpenSesame should be able to open a Chrome window on its own. You can check if ChromeDriver is correctly placed in your path, by executing the command `ChromeDriver.exe` in any folder in PowerShell but the one in which you just copied ChromeDriver. If it start correctly, you can exit its process by pressinc `Ctrl+C`.
 
 ## In case of problems
 
