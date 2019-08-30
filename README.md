@@ -34,7 +34,7 @@ This only installs MongoDB to the system, but we still need to activate it. Use 
 cd C:\Program Files\MongoDB\Server\4.2\bin\
 ```
 
-This folders houses all command line programs associated with MongoDB. Let's install MongoDB as a service, so it will automatically start when Windows starts. Make sure you are in the right folder (you can always check your current folder with the command `pwd`). In this folder, execute the command:
+This folder houses all command line programs associated with MongoDB. Let's install MongoDB as a service, so it will automatically start when Windows starts. Make sure you are in the right folder (you can always check your current folder with the command `pwd`). In this folder, execute the command:
 
 ```powershell
 .\mongod --directoryperdb --install --logpath C:\ProgramData\MongoDB\log\mongod.log --dbpath C:\ProgramData\MongoDB\data\db
@@ -44,7 +44,7 @@ Remember to do this all in a PowerShell window that has Administrator permission
 
 ![MongoDB listed in Windows Services](doc/MongoService.jpg)
 
-If the status column displays contains `Running`, MongoDB is now running on your system, and will start whenever Windows starts!
+If the status column displays `Running`, MongoDB is now running on your system, and will start whenever Windows starts!
 
 ### Making sure MongoDB is accessible from outside
 
