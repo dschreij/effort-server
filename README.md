@@ -119,3 +119,7 @@ $HOME
 ```
 
 in powershell).
+
+## In case of problems
+
+Firewalls can be a real culprit in these kind of networked applications. Some firewalls just silently block everything, causing connections to fail without notifying you why. If you have trouble getting OpenSesame connected to Meteor or MongoDB, try to shutdown *all* firewall applications first and try again.
