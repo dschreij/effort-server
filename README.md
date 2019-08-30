@@ -16,9 +16,9 @@ EFFORT experiment server to be run with the companion OpenSesame experiment.
 
 ### Starting the server
 
-From the folder in which the repository is located, type `run.bat`, or click on this file in Windows explorer. The first run can take a while to begin, but after that startup should be swift. You can then watch the server in action by opening a browser and navigating to [http://localhost:3000](http://localhost:3000).
+From the folder in which the repository is located, type `meteor`. The first run can take a while to begin, but after that startup should be swift. You can then watch the server in action by opening a browser and navigating to [http://localhost:3000](http://localhost:3000).
 
-### Installing MongoDB
+## Installing MongoDB
 
 MongoDB is the database that Meteor uses to operate. Meteor comes included with its own version of MongoDB, but sadly this version cannot be accessed from outside of the computer that meteor (or the effor-server) is running on. We do require this, as all te computers running the effort experiment need to communicate directly with MongoDB over the network.
 
@@ -62,7 +62,7 @@ Change this to
   bindIp: 0.0.0.0
 ```
 
-to allow access from outside. To make this setting in effect, we have to restart MongoDB. Execute these commands in succession:
+to allow access from outside. To make this setting in effect, we have to restart MongoDB. Execute these commands in succession in your opened PowerShell:
 
 ```powershell
 net stop MongoDB
@@ -76,6 +76,11 @@ The MongoDB Server service is starting.
 The MongoDB Server service was started successfully.
 ```
 
+### Connecting effort-server to external MongoDB
+
+The effort-server folder also contains a file called `run.bat`. This file is configured to start effort-server and make it look for a MongoDB instance running on the *same* computer. You can run execute this file from PowerShell by running `run.bat`, or by double-clicking it in Windows Explorer.
+
+If you have MongoDB running on a different PC than the effort server, open `run.bat` with your favorite text editor, and change the value of `MONGO_URL` so that it points the server on which your MongoDB is running. Most likely you only have to change the IP address from `127.0.0.1` to the one of the other computer on which MongoDB is running, and can keep the rest the same.
 
 <!-- ### Creating the effort database in MongoDB
 
@@ -89,14 +94,14 @@ OpenSesame requires some extra modules to be able to interact with the server, b
 
 ### Configuring connection parameters
 
-In the item `SessionSettings` in the EFFORT experiment, you can enter the IP address and port of both the computer running MongoDB and the meteor app. Usually, this is one and the same computer, unless you have chosen to install MongoDB on a different machine than the one you are running the effort server on.
+In the item `SessionSettings` in the EFFORT experiment, you can enter the IP address and port of both the computer running MongoDB and the effort-server. Usually, this is one and the same computer, unless you have chosen to install MongoDB on a different machine than the one you are running the effort server on.
 
 ![Example settings](doc/OS_settings.jpg)
 
 In the screenshot above, the IP address `127.0.0.1` is used, which commonly refers to the computer you are working on, or the 'localhost'. If you run meteor on the same computer as you start the experiment on, the default setting work out-of-the-box. More likely, the server runs on a different computer, and you need to adjust the IP addresses (and if necessary to port suffix, which can be found after the colon (:)) to the right ones.
 
-- *mongo_url*: The IP address and port on which the Mongo server is running. The default port (when running the Mongo version that is included with Meteor) is `3001`.
-- *db_name*: The name of the database in MongoDB. When Mongo is run from Meteor, this is usually simply called 'meteor'.
+- *mongo_url*: The IP address and port on which the Mongo server is running. The default port when running the Mongo version that is included with Meteor is `3001`. The default port that is used by  external MongoDB installations is `27017`.
+- *db_name*: The name of the database in MongoDB. When Mongo is run from Meteor, this is usually simply called 'meteor'. For external MongoDB installations, this is `effort` (because of the last part of the MONGO_URL in `run.bat`, which is `/effort`, and constitutes the database name to use.)
 - *with_db*: `yes` if the experiment should attempt to connect to the database, `no` if it should run without the database (for testing purposes).
 - *toy_server*: The IP address and port on which the toy selection server can be found (which is part of the Meteor app that also displays the sessions and leaderboard). Usually this is the same as the IP address specified in `mongo_url`, only the port is different (`3000`)
 
@@ -118,7 +123,7 @@ This will print a list of all the locations that are in your path. It is recomme
 $HOME
 ```
 
-in powershell).
+in powershell). Once you have copied the ChromeDriver to this location, OpenSesame should be able to open a Chrome window on its own. You can check if ChromeDriver is correctly placed in your path, by executing the command `ChromeDriver.exe` in any folder in PowerShell but the one in which you just copied ChromeDriver.
 
 ## In case of problems
 
