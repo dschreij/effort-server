@@ -6,31 +6,80 @@ EFFORT experiment server to be run with the companion OpenSesame experiment.
 
 ### Installation
 
-1. Open a command prompt or powershell with administrator privileges. An easy way to do this is to open Windows search (or simply press the windows key on your keyboard) and type `cmd` or `powershell`. Right-click on command prompt or powershell icon and choose 'Run as Administrator' from the drop-down menu.
+1. Open a command prompt or powershell with administrator privileges. An easy way to do this is to open Windows search (or simply press the windows key on your keyboard) and type `powershell`. Right-click on the powershell icon and choose 'Run as Administrator' from the drop-down menu.
 2. Install chocolatey following the [instructions on its webpage](https://chocolatey.org/install).
-3. Install Meteor with the command `cinst meteor -y`.
+3. Install Meteor with the command `cinst meteor -y`. Wait till the installation is finished.
 4. Close the administrator terminal and open a new one, but this time not as administrator.
 5. Clone this repository to your local machine using git, or download it using the green download button at the top right of this page.
-6. In your command prompt/powershell, navigate to the folder to which you just cloned or extracted the repository.
+6. In your powershell, navigate to the folder to which you just cloned or extracted the repository. An easy way to do this, is to find the relevant folder in Windows Explorer. Then right-click on the folder, while holding down the `shift` key. In the context menu that opens, click `Open PowerShell window here`.
 7. Execute the command `meteor npm ci` to install dependency packages.
 
 ### Starting the server
 
-From the folder in which the repository is located, type `run.bat`, or click on this file in an explorer window. The first run can take a while to begin, but after that startup should be swift. You can then watch the server in action by opening a browser and navigating to [http://localhost:3000](http://localhost:3000).
+From the folder in which the repository is located, type `run.bat`, or click on this file in Windows explorer. The first run can take a while to begin, but after that startup should be swift. You can then watch the server in action by opening a browser and navigating to [http://localhost:3000](http://localhost:3000).
 
 ### Installing MongoDB
 
-Sadly, the version of MongoDB that is included with the development version of Meteor by default cannot be accessed from outside the computer that it is running on. We do require this, as the effort experiment needs to communicate with MongoDB directly, and the experiment will be running on a number of other PC's.
+MongoDB is the database that Meteor uses to operate. Meteor comes included with its own version of MongoDB, but sadly this version cannot be accessed from outside of the computer that meteor (or the effor-server) is running on. We do require this, as all te computers running the effort experiment need to communicate directly with MongoDB over the network.
 
-To make this work, we thus need to install mongodb separately and configure meteor, or the effort-server to use this mongodb instead of the one it comes bundled with. Installing MongoDB is very easy if you have chocolatey installed:
+To make this work, we thus need to install MongoDB separately and configure meteor, or the effort-server, to use this MongoDB instead of the one it comes bundled with. Installing MongoDB is very easy if you have chocolatey installed. Open an _Administrator_ PowerShell and execute the command:
 
 ```powershell
 cinst mongodb -y
 ```
 
-Make sure you run this command from an Administrator powershell.
+This only installs MongoDB to the system, but we still need to activate it. Use powershell to go to the directory in which MongoDB is installed. By default, Chocolatey installs MongoDB to `C:\Program Files\MongoDB\Server\4.2\bin\mongod`. The `4.2` may be different depending on the version of MongoDB that has been installed, so check for this if you run into problems with the following steps. To change to the directory of the MongoDB install, execute
 
-This should install MongoDB, and also make it run.
+```powershell
+cd C:\Program Files\MongoDB\Server\4.2\bin\
+```
+
+This folders houses all command line programs associated with MongoDB. Let's install MongoDB as a service, so it will automatically start when Windows starts. Make sure you are in the right folder (you can always check your current folder with the command `pwd`). In this folder, execute the command:
+
+```powershell
+.\mongod --directoryperdb --install --logpath C:\ProgramData\MongoDB\log\mongod.log --dbpath C:\ProgramData\MongoDB\data\db
+```
+
+Remember to do this all in a PowerShell window that has Administrator permissions. Once this command is finished, MongoDB should be installed as a Windows Service. You can check this by searching for `Services` in the Windows start menu. By opening the desktop app that is (hopefully) found, you get to see an alphabetically sorted list of all services that are currently registered in your Windows installation. Scroll down to M for MongoDB and check if you see the following entry:
+
+![MongoDB listed in Windows Services](doc/MongoService.jpg)
+
+If the status column displays contains `Running`, MongoDB is now running on your system, and will start whenever Windows starts!
+
+### Making sure MongoDB is accessible from outside
+
+By default, MongoDB itself is also not accessible from outside due to security reasons. Since the effort experiment does not really run the risk of exposing sensitive data to the outside world, we are not going to bother with creating user accounts, and are just going to make MongoDB listen to connections from the outside network.
+
+In the `cd C:\Program Files\MongoDB\Server\4.2\bin\` folder open up the file `mongod.cfg` in your favorite text editor, and find the line:
+
+```text
+  bindIp: 127.0.0.1
+```
+
+Change this to
+
+```text
+  bindIp: 0.0.0.0
+```
+
+to allow access from outside. To make this setting in effect, we have to restart MongoDB. Execute these commands in succession:
+
+```powershell
+net stop MongoDB
+net start MongoDB
+```
+
+You have restarted the MongoDB service and in effect loaded the new settings. If all went well you should see the message:
+
+```powershell
+The MongoDB Server service is starting.
+The MongoDB Server service was started successfully.
+```
+
+
+<!-- ### Creating the effort database in MongoDB
+
+Now MongoDB is running, we have to create a container in which the effort server can place its data. This container is called a database (I know, this gets quite confusing as MongoDB is called a database itself too). To do this, execute the command `.\mongo.exe` from the PowerShell window that you still have opened at the MongoDB folder. -->
 
 ## Client
 
@@ -40,7 +89,7 @@ OpenSesame requires some extra modules to be able to interact with the server, b
 
 ### Configuring connection parameters
 
-In the item `SessionSettings` in the EFFORT experiment, you can enter the IP address and port of both the computer running MongoDB and the meteor app. Usually, this is one and the same computer, unless you have chosen to use a separate installation of MongoDB.
+In the item `SessionSettings` in the EFFORT experiment, you can enter the IP address and port of both the computer running MongoDB and the meteor app. Usually, this is one and the same computer, unless you have chosen to install MongoDB on a different machine than the one you are running the effort server on.
 
 ![Example settings](doc/OS_settings.jpg)
 
