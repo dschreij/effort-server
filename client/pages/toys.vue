@@ -66,16 +66,7 @@
           </h1>
           <p>
             ¡Hola {{ session.first_name }} {{ session.last_name1 }} {{ session.last_name2 }}!
-            Escoge los juguetes/juegos que prefieras <strong>teniendo en cuenta los puntos que has
-              obtenido</strong> en la prueba que acabas de hacer en el ordenador. Recuerda que no
-            puedes escoger más de un juguete del mismo tipo, y que en algunos casos tendrás que
-            marcar qué modelo de juguete
-            quieres.
-          </p>
-          <p>
-            Por ejemplo, imagina que tienes 300 puntos. En ese caso podrías seleccionar, o bien
-            una baraja de cartas (300 puntos), o bien la pelota + el spinner (100+200 puntos).
-            Sin embargo, NO podrías escoger juguetes de más valor o tres spinners iguales.
+            Escoge los juguetes que prefieras teniendo en cuenta los puntos que tienes.
           </p>
         </v-flex>
       </v-layout>
@@ -146,7 +137,7 @@
             text
             @click="dialog.visible = false"
           >
-            Non
+            No
           </v-btn>
           <v-btn
             color="green darken-1"
@@ -215,9 +206,9 @@ export default {
     },
     processSelection() {
       this.dialog.title = '¿Estás seguro?';
-      this.dialog.contents = 'Ya no puede cambiar los juguetes elegidos después de presionar "sí".';
+      this.dialog.contents = 'No podrás cambiar los juguetes elegidos después de presionar "sí".';
       if (this.availablePoints > 0) {
-        this.dialog.contents = `No has gastado todos tus puntos. ${this.dialog.contents}`;
+        this.dialog.contents = `No también has gastado todos tus puntos. ${this.dialog.contents}`;
       }
       this.dialog.visible = true;
     },
