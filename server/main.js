@@ -25,12 +25,13 @@ publishComposite('Sessions', {
       sort: {
         cabin: 1,
       },
+      pollingIntervalMs: 2000
     });
   },
   children: [
     {
       find(session) {
-        return Heartbeats.find({ session: session._id });
+        return Heartbeats.find({ session: session._id }, { pollingIntervalMs: 5000 });
       },
     },
   ],
@@ -48,6 +49,7 @@ Meteor.publish('Leaderboard', function() {
         'points.tournament': -1,
         'current.last_avg_rt': 1,
       },
+      pollingIntervalMs: 5000
     },
   );
 });
